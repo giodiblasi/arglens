@@ -4,7 +4,8 @@
   "description": "argument parser",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "nyc mocha ./test/**/*.test.js",
+    "start": "node index.js"
   },
   "author": "Giovanni Di Blasi",
   "license": "ISC",
@@ -14,5 +15,12 @@
     "eslint-plugin-node": "^5.2.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1"
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-spies": "^0.7.1",
+    "mocha": "^4.0.1",
+    "nyc": "^11.2.1"
   }
 }
