@@ -34,8 +34,8 @@ const extractValue = (build) => {
   return extract;
 };
 
-const arglens = (inputArgs, configurations) => {
-  const builder = argBuilder(configurations.arguments, configureParsers());
+const arglens = (inputArgs, configurations, parserExtensions = []) => {
+  const builder = argBuilder(configurations.arguments, configureParsers(parserExtensions));
   return extractValue(builder)(inputArgs);
 };
 
