@@ -1,4 +1,4 @@
-# Arg Lens
+# Arg Lens (0.1.0)
 
 A Configurable argument parser for Node.js Application
 
