@@ -13,7 +13,7 @@ const argBuilder = (argConfigurations, parsers) => (argName, argValue) => {
     }
     return parser.parse(arg.rawValue)(
       () => arg.notValid(ERRORS.parsingError(arg.rawValue, argConfig.type)),
-      value => arg.valid(value),
+      value => arg.valid(value)
     );
   }
   return arg.notValid(ERRORS.argumentsNotFound(arg));
@@ -25,7 +25,7 @@ const extractValue = (build) => {
     if (index === -1) {
       return argItems;
     }
-    const argName = inputArgs[index][1];
+    const argName = inputArgs[index].substring(1);
     const argValue = inputArgs[index + 1];
     const arg = build(argName, argValue);
     const newArgItems = Object.assign(arg.extract(), argItems);
