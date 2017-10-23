@@ -7,7 +7,7 @@ const configuration = {
     name: 'x',
     type: 'string',
     description: 'x is a message',
-    default: '',
+    default: 'default',
   },
   {
     name: 'y',
@@ -32,15 +32,14 @@ describe('argument tests ', () => {
   });
 
   it('should get second arg if first fails', () => {
-    const args = arglens(['-a', 'hello', '-y', 'world'], configuration);
-    assert.equal(args.a.error, true);
+    const args = arglens(['-z', 'hello', '-y', 'world'], configuration);
+    assert.equal(args.z.error, true);
     assert.equal(args.y.value, 'world');
   });
 
-  it('check not arg found error', () => {
-    const args = arglens(['-a', 'hello'], configuration);
-    assert.equal(args.a.error, true);
-    assert.equal(args.a.errorMessage, 'argument a not found in configuration');
+  it('should get default value of missing arg', () => {
+    const args = arglens(['-y', 'hello'], configuration);
+    assert.equal(args.x.value, 'default');
   });
 
   it('check type not found', () => {

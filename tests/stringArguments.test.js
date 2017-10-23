@@ -16,9 +16,4 @@ describe('string argument tests ', () => {
     const args = arglens(['-m', 'hello'], configuration);
     assert.equal(args.m.value, 'hello');
   });
-
-  it('should return error with not found parameter', () => {
-    const args = arglens(['-a', 'hello'], configuration);
-    assert.equal(args.a.error, 1);
-  });
 });
