@@ -4,6 +4,7 @@ const conf = {
   arguments: [{
     name: 'port',
     type: 'int',
+    default: 234,
   }],
 };
 

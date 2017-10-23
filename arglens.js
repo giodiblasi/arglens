@@ -19,6 +19,30 @@ const argBuilder = (argConfigurations, parsers) => (argName, argValue) => {
   return arg.notValid(ERRORS.argumentsNotFound(arg));
 };
 
+const argBuilder1 = parsers => (argName, argValue, argType) => {
+  const arg = argumentInfo(argName, argValue);
+  const parser = parsers.find(p => p.type === argType);
+  if (!parser) {
+    return arg.notValid(ERRORS.typeNotFound(argType));
+  }
+  return parser.parse(arg.rawValue)(
+    () => arg.notValid(ERRORS.parsingError(arg.rawValue, argType)),
+    value => arg.valid(value)
+  );
+};
+
+const extractValue1 = build => (configuredArgs, inputArgs) => {
+  let argItems = {};
+  configuredArgs.forEach((configuredArg) => {
+    const argIndex = inputArgs.findIndex(arg => arg === `-${configuredArg.name}`);
+    const argValue = (argIndex !== -1) ? inputArgs[argIndex + 1] : configuredArg.default.toString();
+    const arg = build(configuredArg.name, argValue, configuredArg.type);
+    argItems = Object.assign(arg.extract(), argItems);
+  });
+
+  return argItems;
+};
+
 const extractValue = (build) => {
   const extract = (inputArgs, argItems = {}) => {
     const index = inputArgs.findIndex(arg => arg[0] === '-');
@@ -35,8 +59,8 @@ const extractValue = (build) => {
 };
 
 const arglens = (inputArgs, configurations, parserExtensions = []) => {
-  const builder = argBuilder(configurations.arguments, configureParsers(parserExtensions));
-  return extractValue(builder)(inputArgs);
+  const builder = argBuilder1(configureParsers(parserExtensions));
+  return extractValue1(builder)(configurations.arguments, inputArgs);
 };
 
 module.exports = arglens;
