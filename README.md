@@ -42,7 +42,24 @@ arglens return an object like this:
 ## Built-In parser:
 + 'string'
 + 'int'
++ 'option'
 
+## "Option" argument:
+An "option" arguments is a flag, in configuration you should specify a default value. To set a flag use a -- prefix:
+```javscript
+    configuration = {
+        arguments: [{
+            name: 'flag',
+            type: 'option',
+            description: '',
+            default: false,
+    }]
+    }
+    
+    const args = arglens(['--flag'], configuration);
+    args.flag.value; //true
+
+```
 
 ## Custom parser:
 It is possible to extend arglens with custom parser,
