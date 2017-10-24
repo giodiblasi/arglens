@@ -1,6 +1,10 @@
-const parsingError = () => error => error();
+const parsingError = () => ({
+  either: error => error(),
+});
 
-const parsingSuccess = value => (err, success) => success(value);
+const parsingSuccess = value => ({
+  either: (err, success) => success(value),
+});
 
 module.exports = {
   parsingError,

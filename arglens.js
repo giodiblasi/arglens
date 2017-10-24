@@ -8,10 +8,11 @@ const argBuilder = parsers => (argName, argValue, argType) => {
   if (!parser) {
     return arg.notValid(ERRORS.typeNotFound(argType));
   }
-  return parser.parse(arg.rawValue)(
-    () => arg.notValid(ERRORS.parsingError(arg.rawValue, argType)),
-    value => arg.valid(value)
-  );
+  return parser.parse(arg.rawValue)
+    .either(
+      () => arg.notValid(ERRORS.parsingError(arg.rawValue, argType)),
+      value => arg.valid(value)
+    );
 };
 
 const findArgByName = (inputArgs, argName, prefix) => {
