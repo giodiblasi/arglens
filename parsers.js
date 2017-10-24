@@ -1,6 +1,6 @@
 const { parsingSuccess, parsingError } = require('./parseResult');
 
-const stringParser =
+const passthroughParser =
   stringValue => parsingSuccess(stringValue);
 
 const intParser = (stringValue) => {
@@ -11,8 +11,9 @@ const intParser = (stringValue) => {
 
 const configureParsers = (extensions = []) => {
   let parsers = [];
-  parsers.push({ type: 'string', parse: stringParser });
+  parsers.push({ type: 'string', parse: passthroughParser });
   parsers.push({ type: 'int', parse: intParser });
+  parsers.push({ type: 'option', parse: passthroughParser });
   parsers = parsers.concat(extensions);
   return parsers;
 };

@@ -5,6 +5,10 @@ const conf = {
     name: 'port',
     type: 'int',
     default: 234,
+  }, {
+    name: 'flag',
+    type: 'option',
+    default: 'true',
   }],
 };
 

@@ -1,4 +1,3 @@
-/* eslint no-param-reassign: ["error", { "props": false }] */
 const { configureParsers } = require('./parsers');
 const { argumentInfo } = require('./argumentInfo');
 const ERRORS = require('./errors');
@@ -15,13 +14,30 @@ const argBuilder = parsers => (argName, argValue, argType) => {
   );
 };
 
+const findArgByName = (inputArgs, argName, prefix) => {
+  const index = inputArgs.findIndex(arg => arg === `${prefix}${argName}`);
+  return {
+    index,
+    either: (onFail, onSuccess) => {
+      if (index !== -1) return onSuccess(index);
+      return onFail();
+    },
+  };
+};
+
 const extractValue = build => (configuredArgs, inputArgs) => {
   let argItems = {};
   configuredArgs.forEach((configuredArg) => {
-    const argIndex = inputArgs.findIndex(arg => arg === `-${configuredArg.name}`);
-    const argValue = (argIndex !== -1) ? inputArgs[argIndex + 1] : configuredArg.default.toString();
-    const arg = build(configuredArg.name, argValue, configuredArg.type);
-    argItems = Object.assign(arg.extract(), argItems);
+    let argValue = {};
+    if (configuredArg.type === 'option') {
+      argValue = findArgByName(inputArgs, configuredArg.name, '--')
+        .either(() => configuredArg.default, () => !configuredArg.default);
+    } else {
+      argValue = findArgByName(inputArgs, configuredArg.name, '-')
+        .either(() => configuredArg.default.toString(), argIndex => inputArgs[argIndex + 1]);
+    }
+    const argItem = build(configuredArg.name, argValue, configuredArg.type);
+    argItems = Object.assign(argItem.extract(), argItems);
   });
 
   return argItems;
