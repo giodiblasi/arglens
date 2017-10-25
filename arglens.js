@@ -26,8 +26,16 @@ const findArgByName = (inputArgs, argName, prefix) => {
   };
 };
 
+
+const buildHelpMessage = configurations => () =>
+  configurations
+    .reduce((prev, current) =>
+      `${prev}${current.name}[${current.default}]: ${current.description}\n`, '\nArgument description:\n\n');
+
 const extractValue = build => (configuredArgs, inputArgs) => {
-  let argItems = {};
+  let argItems = {
+    getHelpMessage: buildHelpMessage(configuredArgs),
+  };
   configuredArgs.forEach((configuredArg) => {
     let argValue = {};
     if (configuredArg.type === 'option') {
@@ -44,7 +52,14 @@ const extractValue = build => (configuredArgs, inputArgs) => {
   return argItems;
 };
 
+
 const arglens = (inputArgs, configurations, parserExtensions = []) => {
+  configurations.arguments.push({
+    type: 'option',
+    name: 'help',
+    default: 'false',
+    description: 'call this help',
+  });
   const builder = argBuilder(configureParsers(parserExtensions));
   return extractValue(builder)(configurations.arguments, inputArgs);
 };
