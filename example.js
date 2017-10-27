@@ -5,12 +5,15 @@ const conf = {
     name: 'port',
     type: 'int',
     default: 234,
+    description: 'port number',
   }, {
     name: 'flag',
     type: 'option',
-    default: 'true',
+    default: false,
+    description: 'boolean flag',
   }],
 };
 
 const args = arglens(process.argv, conf);
-console.log(args);
+
+
