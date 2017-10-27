@@ -46,12 +46,6 @@ const extractValue = build => (configuredArgs, inputArgs) => {
 };
 
 const arglens = (inputArgs, configurations, parserExtensions = []) => {
-  configurations.arguments.push({
-    type: 'option',
-    name: 'help',
-    default: 'false',
-    description: 'call this help',
-  });
   const builder = argBuilder(configureParsers(parserExtensions));
   const parsedArgs = extractValue(builder)(configurations.arguments, inputArgs);
   return normalize(parsedArgs);
