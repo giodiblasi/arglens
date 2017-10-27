@@ -1,5 +1,5 @@
 const { configureParsers } = require('./parsers');
-const { argumentInfo } = require('./argumentInfo');
+const { argumentInfo, normalize } = require('./argumentInfo');
 const ERRORS = require('./errors');
 
 const argBuilder = parsers => (argName, argValue, argType) => {
@@ -43,18 +43,6 @@ const extractValue = build => (configuredArgs, inputArgs) => {
   });
 
   return argItems;
-};
-
-const normalize = (parsedArgs) => {
-  const normalized = { error: false, errorMessages: [] };
-  parsedArgs.forEach((current) => {
-    if (current.error) {
-      normalized.error = true;
-      normalized.errorMessages.push(current.errorMessage);
-    }
-    normalized[current.name] = current.value;
-  });
-  return normalized;
 };
 
 const arglens = (inputArgs, configurations, parserExtensions = []) => {

@@ -17,4 +17,16 @@ const argumentInfo = (argName, argValue) => {
   return arg;
 };
 
-module.exports = { argumentInfo };
+const normalize = parsedArgs =>
+  parsedArgs.reduce((prev, current) => {
+    const newAcc = Object.assign({}, prev);
+    if (current.error) {
+      newAcc.error = true;
+      newAcc.errorMessages.push(current.errorMessage);
+    }
+    newAcc[current.name] = current.value;
+    return newAcc;
+  }, { error: false, errorMessages: [] });
+
+
+module.exports = { argumentInfo, normalize };
