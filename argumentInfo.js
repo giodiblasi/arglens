@@ -4,16 +4,6 @@ const argumentInfo = (argName, argValue) => {
     rawValue: argValue,
   };
 
-  arg.extract = () => Object.assign({
-    [arg.name]:
-        {
-          rawValue: arg.rawValue,
-          value: arg.value,
-          error: arg.error,
-          errorMessage: arg.errorMessage,
-        },
-  }, {});
-
   arg.valid = (value) => {
     arg.value = value;
     return arg;

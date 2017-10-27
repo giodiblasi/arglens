@@ -1,5 +1,5 @@
 /* global describe it */
-const arglens = require('../arglens');
+const arglens = require('../argExtractor');
 const { assert } = require('chai');
 
 const configuration = {
@@ -14,21 +14,21 @@ const configuration = {
 describe('integer argument tests ', () => {
   it('should get right int value', () => {
     const args = arglens(['-x', '3'], configuration);
-    assert.equal(args.x.value, 3);
+    assert.equal(args.x, 3);
   });
 
   it('should get 0', () => {
     const args = arglens(['-x', '0'], configuration);
-    assert.equal(args.x.value, 0);
+    assert.equal(args.x, 0);
   });
 
   it('should get -1', () => {
     const args = arglens(['-x', '-1'], configuration);
-    assert.equal(args.x.value, -1);
+    assert.equal(args.x, -1);
   });
 
   it('should get parsing error', () => {
     const args = arglens(['-x', '3a'], configuration);
-    assert.equal(args.x.error, true);
+    assert.equal(args.error, true);
   });
 });

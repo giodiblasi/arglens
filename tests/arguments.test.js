@@ -1,5 +1,5 @@
 /* global describe it */
-const arglens = require('../arglens');
+const arglens = require('../argExtractor');
 const { assert } = require('chai');
 
 const configuration = {
@@ -27,24 +27,24 @@ const configuration = {
 describe('argument tests ', () => {
   it('should get all arguments', () => {
     const args = arglens(['-x', 'hello', '-y', 'world'], configuration);
-    assert.equal(args.x.value, 'hello');
-    assert.equal(args.y.value, 'world');
+    assert.equal(args.x, 'hello');
+    assert.equal(args.y, 'world');
   });
 
   it('should get second arg if first fails', () => {
     const args = arglens(['-z', 'hello', '-y', 'world'], configuration);
-    assert.equal(args.z.error, true);
-    assert.equal(args.y.value, 'world');
+    assert.equal(args.error, true);
+    assert.equal(args.y, 'world');
   });
 
   it('should get default value of missing arg', () => {
     const args = arglens(['-y', 'hello'], configuration);
-    assert.equal(args.x.value, 'default');
+    assert.equal(args.x, 'default');
   });
 
   it('check type not found', () => {
     const args = arglens(['-z', 'hello'], configuration);
-    assert.equal(args.z.error, true);
-    assert.equal(args.z.errorMessage, 'no parser found for type notvalid');
+    assert.equal(args.error, true);
+    assert.deepEqual(args.errorMessages, ['no parser found for type notvalid']);
   });
 });

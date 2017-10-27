@@ -1,5 +1,5 @@
 /* global describe it */
-const arglens = require('../arglens');
+const arglens = require('../argExtractor');
 const { assert } = require('chai');
 
 const configuration = {
@@ -14,6 +14,6 @@ const configuration = {
 describe('string argument tests ', () => {
   it('should get string value', () => {
     const args = arglens(['-m', 'hello'], configuration);
-    assert.equal(args.m.value, 'hello');
+    assert.equal(args.m, 'hello');
   });
 });

@@ -28,7 +28,7 @@ const findArgByName = (inputArgs, argName, prefix) => {
 
 
 const extractValue = build => (configuredArgs, inputArgs) => {
-  let argItems = {};
+  const argItems = [];
   configuredArgs.forEach((configuredArg) => {
     let argValue = {};
     if (configuredArg.type === 'option') {
@@ -39,12 +39,23 @@ const extractValue = build => (configuredArgs, inputArgs) => {
         .either(() => configuredArg.default.toString(), argIndex => inputArgs[argIndex + 1]);
     }
     const argItem = build(configuredArg.name, argValue, configuredArg.type);
-    argItems = Object.assign(argItem.extract(), argItems);
+    argItems.push(argItem);
   });
 
   return argItems;
 };
 
+const normalize = (parsedArgs) => {
+  const normalized = { error: false, errorMessages: [] };
+  parsedArgs.forEach((current) => {
+    if (current.error) {
+      normalized.error = true;
+      normalized.errorMessages.push(current.errorMessage);
+    }
+    normalized[current.name] = current.value;
+  });
+  return normalized;
+};
 
 const arglens = (inputArgs, configurations, parserExtensions = []) => {
   configurations.arguments.push({
@@ -54,7 +65,8 @@ const arglens = (inputArgs, configurations, parserExtensions = []) => {
     description: 'call this help',
   });
   const builder = argBuilder(configureParsers(parserExtensions));
-  return extractValue(builder)(configurations.arguments, inputArgs);
+  const parsedArgs = extractValue(builder)(configurations.arguments, inputArgs);
+  return normalize(parsedArgs);
 };
 
 module.exports = arglens;

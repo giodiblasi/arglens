@@ -1,4 +1,4 @@
-const arglens = require('./arglens');
+const arglens = require('./index');
 
 const conf = {
   arguments: [{
@@ -14,6 +14,7 @@ const conf = {
   }],
 };
 
-const args = arglens(process.argv, conf);
+const argParser = arglens(conf);
 
-
+const args = argParser.parse(process.argv);
+console.log(args);
