@@ -9,7 +9,7 @@ const conf = {
   }, {
     name: 'flag',
     type: 'option',
-    default: 'false',
+    default: false,
     description: 'boolean flag',
   }],
 };

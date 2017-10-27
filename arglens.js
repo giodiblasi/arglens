@@ -27,15 +27,8 @@ const findArgByName = (inputArgs, argName, prefix) => {
 };
 
 
-const buildHelpMessage = configurations => () =>
-  configurations
-    .reduce((prev, current) =>
-      `${prev}${current.name}[${current.default}]: ${current.description}\n`, '\nArgument description:\n\n');
-
 const extractValue = build => (configuredArgs, inputArgs) => {
-  let argItems = {
-    getHelpMessage: buildHelpMessage(configuredArgs),
-  };
+  let argItems = {};
   configuredArgs.forEach((configuredArg) => {
     let argValue = {};
     if (configuredArg.type === 'option') {
