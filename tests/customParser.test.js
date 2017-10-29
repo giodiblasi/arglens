@@ -1,5 +1,5 @@
 /* global describe it */
-const arglens = require('../arglens');
+const arglens = require('../argProcessor');
 const { parsingSuccess } = require('../parseResult');
 const { assert } = require('chai');
 
@@ -17,9 +17,12 @@ const customParser = {
   parse: value => parsingSuccess(`hello ${value}`),
 };
 
-describe('argument tests ', () => {
+describe('custom parser tests ', () => {
   it('should use custom parser', () => {
-    const args = arglens(['-x', 'world'], configuration, [customParser]);
-    assert.equal(args.x.value, 'hello world');
+    arglens(['-x', 'world'], configuration, [customParser])
+      .onSuccess((args) => {
+        assert.equal(args.x, 'hello world');
+      })
+      .onError(() => assert.fail());
   });
 });

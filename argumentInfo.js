@@ -4,16 +4,6 @@ const argumentInfo = (argName, argValue) => {
     rawValue: argValue,
   };
 
-  arg.extract = () => Object.assign({
-    [arg.name]:
-        {
-          rawValue: arg.rawValue,
-          value: arg.value,
-          error: arg.error,
-          errorMessage: arg.errorMessage,
-        },
-  }, {});
-
   arg.valid = (value) => {
     arg.value = value;
     return arg;
@@ -27,4 +17,30 @@ const argumentInfo = (argName, argValue) => {
   return arg;
 };
 
-module.exports = { argumentInfo };
+const flat = (parsedArgs) => {
+  const flatArgs = parsedArgs.reduce((prev, current) => {
+    const newAcc = Object.assign({}, prev);
+    if (current.error) {
+      newAcc.error = true;
+      newAcc.errorMessages.push(current.errorMessage);
+    }
+    newAcc.arguments[current.name] = current.value;
+    return newAcc;
+  }, { error: false, errorMessages: [], arguments: {} });
+
+  const flatResult = {
+    onSuccess: (callback) => {
+      if (!flatArgs.error) callback(flatArgs.arguments);
+      return flatResult;
+    },
+    onError: (callback) => {
+      if (flatArgs.error) callback(flatArgs.errorMessages);
+      return flatResult;
+    },
+
+  };
+  return flatResult;
+};
+
+
+module.exports = { argumentInfo, flat };

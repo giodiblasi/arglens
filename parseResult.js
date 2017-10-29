@@ -1,5 +1,5 @@
-const parsingError = () => ({
-  either: error => error(),
+const parsingError = value => ({
+  either: error => error(value),
 });
 
 const parsingSuccess = value => ({
