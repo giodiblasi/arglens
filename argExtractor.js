@@ -1,30 +1,22 @@
 const { configureParsers } = require('./parsers');
 const { argumentInfo, normalize } = require('./argumentInfo');
-const ERRORS = require('./errors');
+const eitherFind = require('./safeFind');
 
 const argBuilder = parsers => (argName, argValue, argType) => {
   const arg = argumentInfo(argName, argValue);
-  const parser = parsers.find(p => p.type === argType);
-  if (!parser) {
-    return arg.notValid(ERRORS.typeNotFound(argType));
-  }
-  return parser.parse(arg.rawValue)
+  return parsers.parse(argType, argValue)
     .either(
-      () => arg.notValid(ERRORS.parsingError(arg.rawValue, argType)),
+      error => arg.notValid(error),
       value => arg.valid(value)
     );
 };
 
-const findArgByName = (inputArgs, argName, prefix) => {
-  const index = inputArgs.findIndex(arg => arg === `${prefix}${argName}`);
-  return {
-    index,
-    either: (onFail, onSuccess) => {
-      if (index !== -1) return onSuccess(index);
-      return onFail();
-    },
-  };
-};
+
+const findArgByName = (inputArgs, argName, prefix) =>
+  eitherFind(
+    () => inputArgs.findIndex(arg => arg === `${prefix}${argName}`),
+    index => index !== -1,
+  );
 
 
 const extractValue = build => (configuredArgs, inputArgs) => {
