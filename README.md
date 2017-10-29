@@ -1,5 +1,5 @@
-<h1 align="center;">ArgLens (1.0.0)</h1>
-<h3 align="center;">A Configurable arguments parser for Node.js Application</h3>
+<h1 align="center">ArgLens (1.0.0)</h1>
+<h3 align="center">A Configurable arguments parser for Node.js Application</h3>
 
 
 ## Getting Started
