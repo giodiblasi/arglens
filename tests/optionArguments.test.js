@@ -1,5 +1,5 @@
 /* global describe it */
-const arglens = require('../argExtractor');
+const arglens = require('../argProcessor');
 const { assert } = require('chai');
 
 const getOptionConfWithDefault = defaultValue => ({
@@ -13,18 +13,21 @@ const getOptionConfWithDefault = defaultValue => ({
 
 describe('option argument tests ', () => {
   it('should get true if default is false', () => {
-    const args = arglens(['--flag'], getOptionConfWithDefault(false));
-    assert.equal(args.flag, true);
+    arglens(['--flag'], getOptionConfWithDefault(false))
+      .onSuccess((args) => { assert.equal(args.flag, true); })
+      .onError(() => assert.fail());
   });
 
   it('should get false if default is true', () => {
-    const args = arglens(['--flag'], getOptionConfWithDefault(true));
-    assert.equal(args.flag, false);
+    arglens(['--flag'], getOptionConfWithDefault(true))
+      .onSuccess((args) => { assert.equal(args.flag, false); })
+      .onError(() => assert.fail());
   });
 
   it('should default value', () => {
-    const args = arglens([], getOptionConfWithDefault(true));
-    assert.equal(args.flag, true);
+    arglens([], getOptionConfWithDefault(true))
+      .onSuccess((args) => { assert.equal(args.flag, true); })
+      .onError(() => assert.fail());
   });
 });
 

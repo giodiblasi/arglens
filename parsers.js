@@ -1,6 +1,7 @@
 const { parsingSuccess, parsingError } = require('./parseResult');
 const eitherFind = require('./safeFind');
 const ERRORS = require('./errors');
+const types = require('./parserTypes');
 
 const passthroughParser =
   stringValue => parsingSuccess(stringValue);
@@ -11,11 +12,11 @@ const intParser = (stringValue, argType) => {
   return parsingError(ERRORS.parsingError(stringValue, argType));
 };
 
-const configureParsers = (extensions = []) => {
+const getParser = (extensions = []) => {
   let parsers = [];
-  parsers.push({ type: 'string', parse: passthroughParser });
-  parsers.push({ type: 'int', parse: intParser });
-  parsers.push({ type: 'option', parse: passthroughParser });
+  parsers.push({ type: types.STRING, parse: passthroughParser });
+  parsers.push({ type: types.INTEGER, parse: intParser });
+  parsers.push({ type: types.OPTION, parse: passthroughParser });
   parsers = parsers.concat(extensions);
   return {
     parse: (argType, rawValue) =>
@@ -28,5 +29,5 @@ const configureParsers = (extensions = []) => {
 };
 
 module.exports = {
-  configureParsers,
+  getParser,
 };

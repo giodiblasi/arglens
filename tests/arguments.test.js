@@ -1,8 +1,8 @@
 /* global describe it */
-const arglens = require('../argExtractor');
+const arglens = require('../argProcessor');
 const { assert } = require('chai');
 
-const configuration = {
+const rightConfiguration = {
   arguments: [{
     name: 'x',
     type: 'string',
@@ -15,36 +15,44 @@ const configuration = {
     description: 'y is a message',
     default: '',
   },
-  {
-    name: 'z',
-    type: 'notvalid',
-    description: 'y is a message',
-    default: '',
-  }],
+  ],
+};
+
+const wrongConfiguration = {
+  arguments: [
+    {
+      name: 'z',
+      type: 'notvalid',
+      description: 'y is a message',
+      default: '',
+    },
+  ],
 };
 
 
 describe('argument tests ', () => {
   it('should get all arguments', () => {
-    const args = arglens(['-x', 'hello', '-y', 'world'], configuration);
-    assert.equal(args.x, 'hello');
-    assert.equal(args.y, 'world');
-  });
-
-  it('should get second arg if first fails', () => {
-    const args = arglens(['-z', 'hello', '-y', 'world'], configuration);
-    assert.equal(args.error, true);
-    assert.equal(args.y, 'world');
+    arglens(['-x', 'hello', '-y', 'world'], rightConfiguration)
+      .onSuccess((args) => {
+        assert.equal(args.x, 'hello');
+        assert.equal(args.y, 'world');
+      })
+      .onError(() => { assert.fail(); });
   });
 
   it('should get default value of missing arg', () => {
-    const args = arglens(['-y', 'hello'], configuration);
-    assert.equal(args.x, 'default');
+    arglens(['-y', 'hello'], rightConfiguration)
+      .onSuccess((args) => {
+        assert.equal(args.x, 'default');
+      })
+      .onError(() => { assert.fail(); });
   });
 
   it('check type not found', () => {
-    const args = arglens(['-z', 'hello'], configuration);
-    assert.equal(args.error, true);
-    assert.deepEqual(args.errorMessages, ['no parser found for type notvalid']);
+    arglens(['-z', 'hello'], wrongConfiguration)
+      .onError((errorMessages) => {
+        assert.deepEqual(errorMessages, ['no parser found for type notvalid']);
+      })
+      .onSuccess(() => { assert.fail(); });
   });
 });

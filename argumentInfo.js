@@ -17,16 +17,30 @@ const argumentInfo = (argName, argValue) => {
   return arg;
 };
 
-const normalize = parsedArgs =>
-  parsedArgs.reduce((prev, current) => {
+const flat = (parsedArgs) => {
+  const flatArgs = parsedArgs.reduce((prev, current) => {
     const newAcc = Object.assign({}, prev);
     if (current.error) {
       newAcc.error = true;
       newAcc.errorMessages.push(current.errorMessage);
     }
-    newAcc[current.name] = current.value;
+    newAcc.arguments[current.name] = current.value;
     return newAcc;
-  }, { error: false, errorMessages: [] });
+  }, { error: false, errorMessages: [], arguments: {} });
+
+  const flatResult = {
+    onSuccess: (callback) => {
+      if (!flatArgs.error) callback(flatArgs.arguments);
+      return flatResult;
+    },
+    onError: (callback) => {
+      if (flatArgs.error) callback(flatArgs.errorMessages);
+      return flatResult;
+    },
+
+  };
+  return flatResult;
+};
 
 
-module.exports = { argumentInfo, normalize };
+module.exports = { argumentInfo, flat };
