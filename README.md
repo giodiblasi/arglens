@@ -22,7 +22,7 @@ Initialize parser with your configuration:
     parser.useConfiguration(configuration);
 ```
 
-and use arglens in this way:
+and use ArgLens in this way:
 ```javscript
     parser.parse(process.argv)
         .onError((messages) => { 
@@ -34,7 +34,7 @@ and use arglens in this way:
 ```
 
 ## Built-In parser:
-ArgLens has three built-in parser
+ArgLens has three built-in parsers
 + STRING
 + OPTION
 + INTEGER
@@ -62,10 +62,11 @@ To set an option argument use a -- prefix:
 
 ```
 
-## Custom parser:
-It is possible to extend arglens with your own custom parsers,
-for example, if you want to add a 'greetingParser:
+## Custom parsers:
+It is possible to extend ArgLens with your own custom parsers.
+For example, if you want to add a 'greetingParser':
 
+### Write your parser
 ```javscript
 const greetingParser = {
   type: 'greeting',
@@ -73,26 +74,31 @@ const greetingParser = {
 };
 ```
 Use parsingSuccess(parsedValue) or parsingError('error message') to return from your parse method
-
+### Add your parser to ArgLens
+```javscript
+   parser.useExtension([greetingParser]);
+```
+### Use your parser
+Now you are able to use the new parser in your configuration
 ```javscript
 configuration = {
         arguments: [{
-            name: 'm',
+            name: 'hello',
             type: 'greeting',
-            description: '',
-            default: '',
+            description: 'this is a polite parser',
+            default: 'world',
     }]
 }
 
 parser.useConfiguration(configuration);
-parser.useExtension([greetingParser]);
+
 
 
  
-parser.parse(['-m', 'world'])
+parser.parse(['-hello', 'Jhon'])
 .onSuccess((args)=>
     {
-        //args.m is 'hello world'
+        //args.hello is 'hello Jhon'
     });
 ```
 
@@ -120,7 +126,7 @@ Arglens can build an help message that describes all the argument specified in y
 
     console.log(parser.getHelpMessege());
 ```
-
+Output:
 ```bash
     Arguments description:
 
