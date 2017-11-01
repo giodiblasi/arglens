@@ -5,7 +5,7 @@
 ## Getting Started
 Import dependencies:
 ```javscript
-const { parser } = require('arglens').parser;
+const { parser } = require('arglens');
 const { OPTION, INTEGER, STRING } = require('arglens').argumentTypes;
 ```
 Initialize parser with your configuration:
@@ -13,7 +13,7 @@ Initialize parser with your configuration:
     configuration = {
         arguments: [{
             name: 'portNumber',
-            type: argumentTypes.INTEGER,
+            type: INTEGER,
             description: 'port number',
             default: '8080',
         }]
@@ -46,7 +46,7 @@ To set an option argument use a -- prefix:
     configuration = {
         arguments: [{
             name: 'flag',
-            type: argumentTypes.OPTIONS,
+            type: OPTIONS,
             description: '',
             default: false,
         }]
@@ -94,4 +94,36 @@ parser.parse(['-m', 'world'])
     {
         //args.m is 'hello world'
     });
+```
+
+
+## Help Message
+Arglens can build an help message that describes all the argument specified in your configuration:
+
+```javscript
+ configuration = {
+        arguments: [{
+            name: 'portNumber',
+            type: INTEGER,
+            description: 'port number',
+            default: '8080',
+        },
+        {
+            name: 'bufferSize',
+            type: INTEGER,
+            description: 'max buffer size(KB)',
+            default: '1024',
+        }]
+    };
+
+    [...]
+
+    console.log(parser.getHelpMessege());
+```
+
+```bash
+    Arguments description:
+
+    -portNumber:    port number (default: 8080)
+    -bufferSize:     max buffer size(KB) (default: 1024)
 ```

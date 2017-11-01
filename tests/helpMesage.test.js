@@ -13,7 +13,11 @@ const configuration = {
     name: 'y',
     type: 'int',
     description: 'y is an int',
-    default: '3',
+  },
+  {
+    name: 'b',
+    type: 'option',
+    description: 'b is a bool',
   },
   ],
 };
@@ -22,6 +26,6 @@ const configuration = {
 describe('help message test ', () => {
   it('should build right message', () => {
     const message = getHelpMessage(configuration.arguments);
-    assert.equal(message, '\nArgument description:\n\nx[default]: x is a message\ny[3]: y is an int\n');
+    assert.equal(message, '\nArguments description:\n\n -x:\t x is a message (default: default)\n -y:\t y is an int \n--b:\t b is a bool \n');
   });
 });

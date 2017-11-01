@@ -1,4 +1,4 @@
-const { parser } = require('./arglens').parser;
+const { parser } = require('./arglens');
 const { OPTION, INTEGER } = require('./arglens').argumentTypes;
 
 const conf = {
