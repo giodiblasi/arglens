@@ -1,5 +1,5 @@
-const arglens = require('./index');
-const { OPTION, INTEGER } = require('./parserTypes');
+const { parser } = require('./arglens').parser;
+const { OPTION, INTEGER } = require('./arglens').argumentTypes;
 
 const conf = {
   arguments: [{
@@ -15,11 +15,11 @@ const conf = {
   }],
 };
 
-arglens.useConfiguration(conf);
+parser.useConfiguration(conf);
 
-arglens.parse(process.argv)
+parser.parse(process.argv)
   .onError((messages) => { console.log(messages); })
   .onSuccess((args) => {
-    if (args.help) console.log(arglens.getHelpMessage());
+    if (args.help) console.log(parser.getHelpMessage());
     else console.log(args.port);
   });

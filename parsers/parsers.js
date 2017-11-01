@@ -1,6 +1,6 @@
 const { parsingSuccess, parsingError } = require('./parseResult');
-const eitherFind = require('./safeFind');
-const ERRORS = require('./errors');
+const eitherFind = require('../utils/eitherFind');
+const ERRORS = require('../utils/errors');
 const types = require('./parserTypes');
 
 const passthroughParser =

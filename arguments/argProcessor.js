@@ -1,7 +1,7 @@
-const { getParser } = require('./parsers');
-const { OPTION } = require('./parserTypes');
+const { getParser } = require('../parsers/parsers');
+const { OPTION } = require('../parsers/parserTypes');
 const { argumentInfo, flat } = require('./argumentInfo');
-const eitherFind = require('./safeFind');
+const eitherFind = require('../utils/eitherFind');
 
 const argumentFactory = parsers => (argName, argValue, argType) => {
   const arg = argumentInfo(argName, argValue);

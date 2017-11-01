@@ -1,5 +1,5 @@
 /* global describe it */
-const arglens = require('../argProcessor');
+const arglens = require('../arguments/argProcessor');
 const { assert } = require('chai');
 
 const configuration = {
