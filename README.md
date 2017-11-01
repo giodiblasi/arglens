@@ -3,24 +3,28 @@
 
 
 ## Getting Started
-Initialize arglens wit your configuration:
+Import dependencies:
 ```javscript
-
+const { parser } = require('arglens').parser;
+const { OPTION, INTEGER, STRING } = require('arglens').argumentTypes;
+```
+Initialize parser with your configuration:
+```javscript
     configuration = {
         arguments: [{
             name: 'portNumber',
-            type: 'int',
+            type: argumentTypes.INTEGER,
             description: 'port number',
             default: '8080',
         }]
     };
 
-    arglens.useConfiguration(configuration);
+    parser.useConfiguration(configuration);
 ```
 
 and use arglens in this way:
 ```javscript
-    arglens.parse(process.argv)
+    parser.parse(process.argv)
         .onError((messages) => { 
             //your code
         })
@@ -31,9 +35,9 @@ and use arglens in this way:
 
 ## Built-In parser:
 ArgLens has three built-in parser
-+ 'string'
-+ 'int'
-+ 'option'
++ STRING
++ OPTION
++ INTEGER
 
 ### "Option" argument:
 An "option" arguments is a flag, in configuration you should specify a default value.
@@ -42,15 +46,15 @@ To set an option argument use a -- prefix:
     configuration = {
         arguments: [{
             name: 'flag',
-            type: 'option',
+            type: argumentTypes.OPTIONS,
             description: '',
             default: false,
         }]
     };
 
-    arglens.useConfiguration(configuration);
+    parser.useConfiguration(configuration);
 
-    arglens(['--flag'])
+    parser.parse(['--flag'])
         .onSuccess((args)=> {
             // args.flag is true
         });
@@ -80,17 +84,14 @@ configuration = {
     }]
 }
 
-arglens.useConfiguration(configuration);
-arglens.useExtension([greetingParser]);
+parser.useConfiguration(configuration);
+parser.useExtension([greetingParser]);
 
 
  
-arglens(['-m', 'world'])
+parser.parse(['-m', 'world'])
 .onSuccess((args)=>
     {
         //args.m is 'hello world'
     });
-
-
-
 ```
