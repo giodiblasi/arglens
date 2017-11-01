@@ -1,4 +1,4 @@
-<h1 align="center">ArgLens (1.0.0)</h1>
+<h1 align="center">ArgLens</h1>
 <h3 align="center">A Configurable arguments parser for Node.js Application</h3>
 
 
@@ -40,7 +40,7 @@ ArgLens has three built-in parsers
 + INTEGER
 
 ### "Option" argument:
-An "option" arguments is a flag, in configuration you should specify a default value.
+An "option" argument is a flag, in configuration you should specify a default value.
 To set an option argument use a -- prefix:
 ```javscript
     configuration = {
