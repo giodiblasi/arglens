@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/giodiblasi/arglens/badge.svg?branch=master)](https://coveralls.io/github/giodiblasi/arglens?branch=master)
+
 <h1 align="center">ArgLens</h1>
 <h3 align="center">A Configurable arguments parser for Node.js Application</h3>
 
