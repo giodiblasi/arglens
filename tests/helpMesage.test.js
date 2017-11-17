@@ -1,5 +1,5 @@
 /* global describe it */
-const { getHelpMessage } = require('../utils/helpMessage');
+const { getHelpMessage } = require('../src/utils/helpMessage');
 const { assert } = require('chai');
 
 const configuration = {

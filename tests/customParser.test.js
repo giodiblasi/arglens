@@ -1,6 +1,6 @@
 /* global describe it */
-const arglens = require('../arguments/argProcessor');
-const { parsingSuccess } = require('../parsers/parseResult');
+const arglens = require('../src/arguments/argProcessor');
+const { parsingSuccess } = require('../src/parsers/parseResult');
 const { assert } = require('chai');
 
 const configuration = {
