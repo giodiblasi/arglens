@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/giodiblasi/arglens.svg?branch=master)](https://travis-ci.org/giodiblasi/arglens)
+
 [![Coverage Status](https://coveralls.io/repos/github/giodiblasi/arglens/badge.svg?branch=master)](https://coveralls.io/github/giodiblasi/arglens?branch=master)
 
 <h1 align="center">ArgLens</h1>
