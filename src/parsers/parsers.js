@@ -12,7 +12,7 @@ const intParser = (stringValue, argType) => {
   return parsingError(ERRORS.parsingError(stringValue, argType));
 };
 
-const getParser = (extensions = []) => {
+const getParser = (extensions) => {
   let parsers = [];
   parsers.push({ type: types.STRING, parse: passthroughParser });
   parsers.push({ type: types.INTEGER, parse: intParser });
