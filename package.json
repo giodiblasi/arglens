@@ -2,10 +2,10 @@
   "name": "arglens",
   "version": "1.0.0",
   "description": "argument parser",
-  "main": "index.js",
+  "main": "./dist/arglens.js",
   "scripts": {
     "test": "nyc mocha ./tests/**/*.test.js",
-    "start": "node index.js",
+    "start": "node dist/example.js",
     "build": "./node_modules/.bin/babel ./src/ --out-dir dist/ --copy-files",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

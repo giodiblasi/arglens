@@ -1,0 +1,11 @@
+**/node_modules/**
+**/.vscode/**
+**/.nyc_output/**
+**/src/**
+**/tests/**
+.babelrc
+.eslintrc.json
+.gitignore
+.travis.yml
+package-lock.json
+.npmignore
