@@ -40,6 +40,7 @@ ArgLens has three built-in parsers
 + STRING
 + OPTION
 + INTEGER
++ DATE
 
 ### "Option" argument:
 An "option" argument is a flag, in configuration you should specify a default value.
@@ -70,16 +71,26 @@ For example, if you want to add a 'greetingParser':
 
 ### Write your parser
 ```javscript
-const greetingParser = {
-  type: 'greeting',
-  parse: value => parsingSuccess(`hello ${value}`),
-};
+//Define your own type
+
+const greetingType = 'greeting';
+
+//Write your parser function
+
+const parseGreeting = (valueToParse) =>{
+    return valueToParse ?
+        parsingSuccess(`hello ${valueToParse}`) :
+        parsingError(valueToParse, greetingType);
+}
+
+//Add your parser to arglens
+
+parser.useExtension([{
+  type: greetingType,
+  parse: value => parsingSuccess(`hello ${value}`)
+}]);
 ```
-Use parsingSuccess(parsedValue) or parsingError('error message') to return from your parse method
-### Add your parser to ArgLens
-```javscript
-   parser.useExtension([greetingParser]);
-```
+
 ### Use your parser
 Now you are able to use the new parser in your configuration
 ```javscript
@@ -93,16 +104,12 @@ configuration = {
 }
 
 parser.useConfiguration(configuration);
-
-
-
- 
-parser.parse(['-hello', 'Jhon'])
-.onSuccess((args)=>
-    {
-        //args.hello is 'hello Jhon'
-    });
 ```
+
+\> node index.js -hello Jhon
+
+at this point your args.hello contains 'hello Jhon'
+
 
 
 ## Help Message
